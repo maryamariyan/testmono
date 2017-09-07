@@ -11,14 +11,14 @@ namespace ProjInMac
 		{
                         // no xdg: 	System.ComponentModel.Win32Exception (0x80004005): Access denied at System.Diagnostics.Process.StartWithShellExecuteEx
 			// with xdg: 	px is null
-                        string fileToOpen = "README.txt";
+                        string fileToOpen = "README.md";
 
                         // no xdg:	System.ComponentModel.Win32Exception (0x80004005): Cannot find the specified file
-			// with xdg:	px is null
+			// with xdg:	px is null. the process is failing to start
                         string urlToOpen = "http://www.google.com";
 
 			// no xdg:	Works fine.
-			// with xdg:	Works fine
+			// with xdg:	Works fine. use px.WaitForExit() before trying to access px info
 			string appToOpen = "nano";
 
 			// when UseShellExecute is false, FileName will be applicationname and Arguments will be args for the applicationname
@@ -29,16 +29,17 @@ namespace ProjInMac
 				if (px != null) 
 				{
 					var sb = new StringBuilder();
-                                	sb.Append("px has exited? "+ px.HasExited + " ");
 
-					px.WaitForExit();
+					px.WaitForExit(); // could not be working with UseShellExecute
 
   	                              	sb.Append("px exit code? "+ px.ExitCode + " ");
         	                        Console.WriteLine(sb.ToString());
 
 				}
 				else
+				{
 					Console.WriteLine("px is null");
+				}
 			}
 		}
 	}
